@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Russia of the Future - Official Website</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://placehold.co/32x32/dc2626/ffffff?text=RF">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Montserrat for headers, Inter for body -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom CSS for gradients, animations, and specific overrides */
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #e5f3ff; /* Icy-blue accent for text */
+            background: linear-gradient(135deg, #0f1c2e, #1a417d); /* Dark navy gradient */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            color: #e5f3ff;
+        }
+
+        /* Hero section scroll effect */
+        .hero-section {
+            height: 100vh; /* Initial full viewport height */
+            position: relative; /* Needed for background canvas and absolute content */
+            display: flex; /* Kept for initial centering */
+            align-items: center; /* Kept for initial centering */
+            justify-content: center; /* Kept for initial centering */
+            text-align: center;
+            overflow: hidden;
+            transition: height 0.5s ease-out; /* Smooth transition for height change */
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .hero-background canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-content {
+            position: absolute; /* Position absolutely within hero-section */
+            top: 10%; /* Adjusted for higher initial position */
+            left: 45%; /* Retained at 45% as requested */
+            transform: translateX(-50%) translateY(-50%); /* Center horizontally and vertically based on its own size */
+            display: flex; /* Use flexbox for internal centering */
+            flex-direction: column; /* Stack items vertically */
+            align-items: center; /* Center items horizontally */
+            justify-content: center; /* Center items vertically */
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Smoother transitions for transform */
+            width: 100%; /* Ensure content takes full width for centering */
+            max-width: 90%; /* Limit width for readability */
+            padding: 0 1rem; /* Add some padding */
+            box-sizing: border-box; /* Include padding in width calculation */
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #dc2626, #b91c1c); /* Deep red gradient */
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(45deg, #b91c1c, #991b1b);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.6);
+            transform: translateY(-2px);
+            border-color: #e5f3ff; /* Icy-blue border on hover */
+        }
+
+        /* Feature Card styling */
+        .feature-card {
+            background: rgba(26, 65, 125, 0.6); /* Semi-transparent dark navy */
+            border: 1px solid rgba(188, 223, 255, 0.2); /* Icy-blue border */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            transform-style: preserve-3d; /* Enable 3D transforms */
+            perspective: 1000px; /* Define perspective for 3D effect */
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg) scale(1.03); /* Pop-out 3D effect */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            border-color: #bcdfff; /* Brighter icy-blue on hover */
+        }
+
+        /* Policy Flip Card */
+        .flip-card-container {
+            perspective: 1000px;
+            width: 100%;
+            height: 250px; /* Fixed height for consistency */
+        }
+
+        .flip-card {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+
+        .flip-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+            border-radius: 0.75rem; /* rounded-xl */
+            padding: 1.5rem; /* p-6 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border: 1px solid rgba(188, 223, 255, 0.2);
+        }
+
+        .flip-card-front {
+            background: rgba(26, 65, 125, 0.7);
+            color: #e5f3ff;
+            z-index: 2;
+        }
+
+        .flip-card-back {
+            background: rgba(15, 28, 46, 0.9); /* Darker background for back */
+            color: #bcdfff;
+            transform: rotateY(180deg);
+            justify-content: flex-start; /* Align content to top */
+            padding-top: 2rem;
+        }
+
+        .flip-card-back p {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+
+        .flip-card-back .learn-more-btn {
+            background-color: #dc2626; /* Deep red */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .flip-card-back .learn-more-btn:hover {
+            background-color: #b91c1c;
+        }
+
+        /* Leadership Carousel */
+        .carousel-container {
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch; /* For smoother scrolling on iOS */
+            justify-content: center; /* Center items horizontally */
+        }
+
+        .carousel-item {
+            scroll-snap-align: center;
+            flex: 0 0 auto; /* Prevent items from shrinking */
+            width: 300px; /* Fixed width for carousel items */
+            margin-right: 1.5rem; /* Space between items */
+        }
+
+        .leader-card {
+            background: rgba(26, 65, 125, 0.6);
+            border: 1px solid rgba(188, 223, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .leader-card:hover .leader-photo {
+            box-shadow: 0 0 20px 5px rgba(188, 223, 255, 0.6); /* Glowing effect */
+        }
+
+        .leader-photo {
+            transition: box-shadow 0.3s ease;
+        }
+
+        /* Modal for Leader Bio */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.8); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #0f1c2e, #1a417d);
+            margin: auto;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            border: 1px solid #bcdfff;
+            width: 90%;
+            max-width: 700px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            position: relative;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .close-button {
+            color: #bcdfff;
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #dc2626;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem; /* Smaller on mobile */
+            }
+            .feature-cards-grid {
+                grid-template-columns: 1fr; /* Single column on mobile */
+            }
+            .carousel-item {
+                width: 90%; /* Wider items on mobile */
+            }
+        }
+
+        /* Styles for navigation */
+        .page-section {
+            display: none; /* Hidden by default, shown by JS */
+        }
+        .page-section.active {
+            display: block; /* Active page is shown */
+        }
+        .nav-link.active {
+            color: #dc2626; /* Active link color */
+            border-bottom: 2px solid #dc2626;
+        }
+
+        /* Custom animation for vision icons */
+        @keyframes pulse-slow {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 3s infinite ease-in-out;
+        }
+        .animation-delay-1 { animation-delay: 0.5s; }
+        .animation-delay-2 { animation-delay: 1s; }
+
+        /* Custom animation for globe */
+        @keyframes spin-slow {
+            from { transform: rotateY(0deg); } /* Corrected for Y-axis rotation */
+            to { transform: rotateY(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 60s linear infinite;
+        }
+
+        /* Timeline specific styles */
+        .timeline-container {
+            position: relative;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 2rem; /* Space for scrollbar */
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin; /* Firefox */
+            scrollbar-color: #dc2626 #1a417d; /* Firefox */
+        }
+
+        .timeline-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .timeline-container::-webkit-scrollbar-track {
+            background: #1a417d;
+            border-radius: 10px;
+        }
+
+        .timeline-container::-webkit-scrollbar-thumb {
+            background-color: #dc2626;
+            border-radius: 10px;
+            border: 2px solid #1a417d;
+        }
+
+        .timeline-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, #bcdfff, #dc2626);
+            transform: translateY(-50%);
+            z-index: 0;
+            opacity: 0.3; /* Make less distracting */
+            filter: blur(1px); /* Add slight blur */
+        }
+
+        .timeline-node {
+            display: inline-block;
+            vertical-align: middle;
+            position: relative;
+            margin: 0 5rem; /* Spacing between nodes */
+            background: rgba(26, 65, 125, 0.8);
+            border: 2px solid rgba(188, 223, 255, 0.5); /* Softer border */
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            width: 280px; /* Fixed width for nodes */
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            z-index: 1;
+            cursor: pointer;
+            white-space: normal; /* Allow text to wrap */
+        }
+
+        .timeline-node:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .timeline-node::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -5rem; /* Connects to the line */
+            width: 10rem;
+            height: 2px;
+            background-color: rgba(188, 223, 255, 0.3); /* Softer line */
+            transform: translateY(-50%);
+            z-index: -1;
+        }
+        .timeline-node:first-child::before {
+            width: 5rem; /* Shorter line for the first node */
+            left: -2.5rem;
+        }
+
+        /* Bar graph styles */
+        .bar-graph-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            height: 150px; /* Fixed height for the graph area */
+            margin-top: 1rem;
+            gap: 2rem;
+        }
+        .bar {
+            width: 80px; /* Width of each bar */
+            background-color: #dc2626;
+            border-radius: 0.5rem 0.5rem 0 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            transition: height 0.5s ease-out;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .bar.target {
+            background-color: #22c55e; /* Green for target */
+        }
+        .bar-label {
+            position: absolute;
+            top: -1.5rem;
+            color: #e5f3ff;
+            font-weight: bold;
+            font-size: 1.125rem; /* text-xl */
+        }
+        .bar-year {
+            position: absolute;
+            bottom: -1.5rem;
+            color: #bcdfff;
+            font-size: 0.875rem; /* text-sm */
+        }
+
+        /* New Infographic Styles */
+        .infographic-card {
+            background: rgba(26, 65, 125, 0.6);
+            border: 1px solid rgba(188, 223, 255, 0.2);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+            transform: translateY(20px);
+            opacity: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .infographic-card.animate-in {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .infographic-card:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        .tooltip-text {
+            visibility: hidden;
+            opacity: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 100%; /* Position above the element */
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 10px;
+            white-space: nowrap;
+            transition: opacity 0.3s;
+        }
+
+        /* Radial Progress Bar */
+        .radial-progress {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: conic-gradient(#dc2626 var(--progress, 0%), #0f1c2e 0%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+        .radial-progress::before {
+            content: '';
+            position: absolute;
+            background: #0f1c2e;
+            width: 80%;
+            height: 80%;
+            border-radius: 50%;
+        }
+        .radial-progress span {
+            position: relative;
+            color: #e5f3ff;
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+        .radial-progress-label {
+            position: absolute;
+            bottom: -1.5rem;
+            font-size: 0.875rem;
+            color: #bcdfff;
+        }
+
+        /* Animated Counter */
+        .animated-counter {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #e5f3ff;
+            text-shadow: 0 0 10px #bcdfff;
+            transition: color 0.3s;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header/Navigation Bar -->
+    <header class="bg-gray-900 bg-opacity-80 backdrop-blur-sm sticky top-0 z-50 shadow-lg py-4">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 flex justify-between items-center">
+            <div class="text-white text-2xl font-bold font-montserrat flex items-center">
+                <img src="https://placehold.co/32x32/dc2626/ffffff?text=RF" alt="Favicon" class="mr-2 rounded-full">
+                Russia of the Future
+            </div>
+            <nav>
+                <ul class="flex space-x-6 md:space-x-8">
+                    <li><a href="#home" class="nav-link text-white hover:text-red-400 transition duration-300 font-semibold text-lg active" data-page="home">Home</a></li>
+                    <li><a href="#about-us" class="nav-link text-white hover:text-red-400 transition duration-300 font-semibold text-lg" data-page="about-us">About Us</a></li>
+                    <li><a href="#views" class="nav-link text-white hover:text-red-400 transition duration-300 font-semibold text-lg" data-page="views">Views</a></li>
+                    <li><a href="#leadership" class="nav-link text-white hover:text-red-400 transition duration-300 font-semibold text-lg" data-page="leadership">Leadership</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Container for Pages -->
+    <main class="flex-grow">
+        <!-- Home Page Section -->
+        <section id="home" class="page-section active">
+            <!-- Hero Section -->
+            <div class="relative hero-section">
+                <div class="hero-background">
+                    <canvas id="particleCanvas"></canvas>
+                    <div class="absolute inset-0 bg-gradient-to-t from-transparent to-black opacity-30"></div>
+                </div>
+                <div class="relative z-10 hero-content px-4">
+                    <h1 class="text-6xl md:text-7xl lg:text-8xl font-extrabold leading-tight mb-8 text-shadow-lg animate-fade-in-up">
+                        A Modern Vision for<br>Russia’s Tomorrow
+                    </h1>
+                    <button class="cta-button text-white font-bold py-4 px-8 rounded-full text-lg md:text-xl uppercase tracking-wide" onclick="window.open('https://canary.discord.com/channels/894566680741703721/1136920829767204986', '_blank');">
+                        Join the Movement
+                    </button>
+                </div>
+            </div>
+
+            <!-- Feature Cards Section -->
+            <div class="py-16 md:py-24 px-4 md:px-8 lg:px-16">
+                <div class="max-w-7xl mx-auto">
+                    <h2 class="text-4xl font-extrabold text-center mb-12 text-white">Our Core Pillars</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 feature-cards-grid">
+                        <!-- Party Platform Card (Replaces Elections Card) -->
+                        <div class="feature-card p-6 rounded-xl flex flex-col items-center justify-center text-center cursor-pointer" onclick="window.open('https://docs.google.com/document/d/1uoqpWX3pyunkN6XOWGAWjXuzUIwfpbGTv0-5olT5Csk/edit?usp=sharing', '_blank');">
+                            <i class="fas fa-vote-yea text-6xl text-red-500 mb-4"></i>
+                            <h3 class="text-2xl font-bold mb-2">Party Platform</h3>
+                            <p class="text-lg text-gray-300">Discover our official stances and policies.</p>
+                        </div>
+                        <!-- Charter Card -->
+                        <div class="feature-card p-6 rounded-xl flex flex-col items-center justify-center text-center cursor-pointer" onclick="window.open('https://docs.google.com/document/d/16USU3S_fFpyaFAGSVQ-PWGxjFSGJwMkbeO5ZtMRMcHw/edit?usp=sharing', '_blank');">
+                            <i class="fas fa-scroll text-6xl text-blue-300 mb-4"></i>
+                            <h3 class="text-2xl font-bold mb-2">Charter</h3>
+                            <p class="text-lg text-gray-300">Discover our founding principles and core doctrines.</p>
+                        </div>
+                        <!-- Upcoming People Card -->
+                        <div class="feature-card p-6 rounded-xl flex flex-col items-center justify-center text-center cursor-pointer" onclick="showPage('upcoming-people-page');">
+                            <i class="fas fa-users-gear text-6xl text-silver-300 mb-4"></i>
+                            <h3 class="text-2xl font-bold mb-2">Upcoming People</h3>
+                            <p class="text-lg text-gray-300">Meet the emerging leaders shaping Russia's future.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Removed Quick Links Section -->
+        </section>
+
+        <!-- Upcoming People Page Section -->
+        <section id="upcoming-people-page" class="page-section py-16 md:py-24 px-4 md:px-8 lg:px-16">
+            <div class="max-w-7xl mx-auto text-center">
+                <h2 class="text-4xl font-extrabold mb-12 text-white">Emerging Leaders & Community Builders</h2>
+                <p class="text-lg text-gray-300 mb-8">
+                    Discover the inspiring individuals who are making a significant impact in their communities and
+                    are poised to lead Russia into the future. These are the voices of tomorrow.
+                </p>
+                <div class="bg-gray-800 bg-opacity-50 p-8 rounded-xl">
+                    <h3 class="text-2xl font-bold mb-4">Our Rising Stars</h3>
+                    <p class="text-gray-400">Profiles of our emerging leaders coming soon!</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                        <!-- Example Emerging Leader Card -->
+                        <div class="bg-gray-700 p-4 rounded-lg flex flex-col items-center">
+                            <img src="https://placehold.co/100x100/374151/D1D5DB?text=Leader" alt="Leader Photo" class="w-24 h-24 rounded-full object-cover mb-4 border-2 border-blue-400">
+                            <h4 class="text-xl font-semibold">Young Leader Name</h4>
+                            <p class="text-gray-400">Community Role / Area of Impact</p>
+                            <button class="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm">Learn More</button>
+                        </div>
+                        <div class="bg-gray-700 p-4 rounded-lg flex flex-col items-center">
+                            <img src="https://placehold.co/100x100/374151/D1D5DB?text=Leader" alt="Leader Photo" class="w-24 h-24 rounded-full object-cover mb-4 border-2 border-blue-400">
+                            <h4 class="text-xl font-semibold">Young Leader Name</h4>
+                            <p class="text-gray-400">Community Role / Area of Impact</p>
+                            <button class="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm">Learn More</button>
+                        </div>
+                        <div class="bg-gray-700 p-4 rounded-lg flex flex-col items-center">
+                            <img src="https://placehold.co/100x100/374151/D1D5DB?text=Leader" alt="Leader Photo" class="w-24 h-24 rounded-full object-cover mb-4 border-2 border-blue-400">
+                            <h4 class="text-xl font-semibold">Young Leader Name</h4>
+                            <p class="text-gray-400">Community Role / Area of Impact</p>
+                            <button class="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Page Section -->
+        <section id="about-us" class="page-section py-16 md:py-24 px-4 md:px-8 lg:px-16">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl font-extrabold text-center mb-12 text-white">About Us</h2>
+
+                <!-- Our Journey: An Interactive Timeline -->
+                <div class="bg-gray-800 bg-opacity-50 p-8 rounded-xl mb-12">
+                    <h3 class="text-2xl font-bold mb-4 text-center">Our Journey: An Interactive Timeline</h3>
+                    <p class="text-gray-300 leading-relaxed mb-6 text-center">
+                        Explore the history of Russia of the Future through our dynamic, horizontally scrollable timeline.
+                        Each milestone is represented by a node that expands on click to reveal details.
+                    </p>
+
+                    <div class="timeline-container relative h-96 flex items-center">
+                        <div class="timeline-line"></div>
+                        <!-- Timeline Entries -->
+                        <div class="flex items-center h-full">
+                            <!-- 1999 – The Spark -->
+                            <div class="timeline-node">
+                                <i class="fas fa-lightbulb text-4xl text-yellow-400 mb-2"></i>
+                                <h4 class="font-bold text-lg">1999 – The Spark</h4>
+                                <p class="text-sm text-gray-300">Informal circles of reform-minded thinkers begin to gather in Moscow, dreaming of a Russia beyond corruption, chaos, and compromise.</p>
+                            </div>
+                            <!-- 2000 – Turning Point -->
+                            <div class="timeline-node">
+                                <i class="fas fa-compass text-4xl text-green-400 mb-2"></i>
+                                <h4 class="font-bold text-lg">2000 – Turning Point</h4>
+                                <p class="text-sm text-gray-300">The presidential transition awakens a deeper need for modernization and independent political vision.</p>
+                            </div>
+                            <!-- 2002 – Grassroots Awakening -->
+                            <div class="timeline-node">
+                                <i class="fas fa-seedling text-4xl text-lime-400 mb-2"></i>
+                                <h4 class="font-bold text-lg">2002 – Grassroots Awakening</h4>
+                                <p class="text-sm text-gray-300">The movement spreads—students, workers, and veterans organizing in Saint Petersburg, Kazan, and Novosibirsk.</p>
+                            </div>
+                            <!-- 2003 – Organizational Foundation -->
+                            <div class="timeline-node">
+                                <i class="fas fa-building text-4xl text-orange-400 mb-2"></i>
+                                <h4 class="font-bold text-lg">2003 – Organizational Foundation</h4>
+                                <p class="text-sm text-gray-300">Party formally registers. The Charter is published and ratified by over 40,000 supporters nationwide.</p>
+                            </div>
+                            <!-- March 2004 – First National Push -->
+                            <div class="timeline-node">
+                                <i class="fas fa-rocket text-4xl text-red-400 mb-2"></i>
+                                <h4 class="font-bold text-lg">March 2004 – First National Push</h4>
+                                <p class="text-sm text-gray-300">First campaigns launched with limited resources but bold resolve. Public support grows daily.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Our Mission & Our Vision -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+                    <div class="bg-gray-800 bg-opacity-50 p-8 rounded-xl relative overflow-hidden">
+                        <h3 class="text-2xl font-bold mb-4">Our Mission</h3>
+                        <p class="text-gray-300 leading-relaxed">
+                            To build a prosperous, <span class="text-blue-300 font-semibold">innovative</span>, and <span class="text-red-300 font-semibold">just Russia</span>, empowering every citizen to reach their full potential and ensuring our nation stands strong and respected on the global stage. We are committed to fostering <span class="text-green-300 font-semibold">unity</span>, <span class="text-purple-300 font-semibold">progress</span>, and a vibrant future for all.
+                        </p>
+                        <div class="absolute inset-0 -z-10 bg-cover bg-center opacity-10" style="background-image: url('https://placehold.co/1200x800/0f1c2e/e5f3ff?text=Russian+Schools+Labs+Space');">
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 bg-opacity-50 p-8 rounded-xl relative overflow-hidden">
+                        <h3 class="text-2xl font-bold mb-4">Our Vision</h3>
+                        <p class="text-gray-300 leading-relaxed mb-4">
+                            A Russia where <span class="text-purple-300 font-semibold">technology drives progress</span>, <span class="text-yellow-300 font-semibold">culture flourishes</span>, and <span class="text-red-300 font-semibold">every voice is heard</span>. We envision a society built on principles of fairness, sustainability, and collective well-being, leading the way in global innovation and human development.
+                        </p>
+                        <div class="flex justify-around items-center mt-6">
+                            <div class="text-center">
+                                <i class="fas fa-microchip text-5xl text-blue-300 animate-pulse-slow"></i>
+                                <p class="text-sm mt-2">Technology</p>
+                            </div>
+                            <div class="text-center">
+                                <i class="fas fa-mask text-5xl text-pink-300 animate-pulse-slow animation-delay-1"></i>
+                                <p class="text-sm mt-2">Culture</p>
+                            </div>
+                            <div class="text-center">
+                                <i class="fas fa-bullhorn text-5xl text-orange-300 animate-pulse-slow animation-delay-2"></i>
+                                <p class="text-sm mt-2">Voice</p>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 -z-10 flex items-center justify-center opacity-10">
+                            <i class="fas fa-globe text-[15rem] text-blue-500 animate-spin-slow"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Views Page Section -->
+        <section id="views" class="page-section py-16 md:py-24 px-4 md:px-8 lg:px-16 bg-gradient-to-b from-[#1a417d] to-[#0f1c2e]">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl font-extrabold text-center mb-12 text-white">Our Viewpoints</h2>
+
+                <!-- Policy Tabs/Filters -->
+                <div class="flex justify-center mb-8 space-x-4 flex-wrap">
+                    <button class="policy-tab bg-red-600 text-white px-6 py-3 rounded-full text-lg font-semibold transition duration-300 hover:bg-red-700 mb-2 md:mb-0" data-category="domestic">Domestic Policy</button>
+                    <button class="policy-tab bg-gray-700 text-white px-6 py-3 rounded-full text-lg font-semibold transition duration-300 hover:bg-gray-600 mb-2 md:mb-0" data-category="foreign">Foreign Affairs</button>
+                    <button class="policy-tab bg-gray-700 text-white px-6 py-3 rounded-full text-lg font-semibold transition duration-300 hover:bg-gray-600 mb-2 md:mb-0" data-category="technology">Technology & Innovation</button>
+                    <button class="policy-tab bg-gray-700 text-white px-6 py-3 rounded-full text-lg font-semibold transition duration-300 hover:bg-gray-600 mb-2 md:mb-0" data-category="culture">Culture & Society</button>
+                </div>
+
+                <!-- Policy Flip Cards Grid -->
+                <div id="policy-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Domestic Policy -->
+                    <div class="flip-card-container policy-card domestic">
+                        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-front">
+                                <i class="fas fa-gavel text-5xl mb-4 text-blue-300"></i>
+                                <h3 class="text-xl font-bold">Clean Government Now</h3>
+                                <p class="text-sm text-gray-300">Eliminate corruption and hold elites accountable.</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3 class="text-xl font-bold mb-2">Clean Government Now</h3>
+                                <p>We advocate for stringent anti-corruption measures, transparent governance, and robust accountability for all public officials, ensuring trust in our institutions.</p>
+                                <a href="#" class="learn-more-btn">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card-container policy-card domestic">
+                        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-front">
+                                <i class="fas fa-handshake text-5xl mb-4 text-red-300"></i>
+                                <h3 class="text-xl font-bold">Power to the People</h3>
+                                <p class="text-sm text-gray-300">Real elections, independent courts, local democracy.</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3 class="text-xl font-bold mb-2">Power to the People</h3>
+                                <p>Empowering citizens through fair elections, an independent judiciary, and strengthened local self-governance, ensuring every voice contributes to our nation's direction.</p>
+                                <a href="#" class="learn-more-btn">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card-container policy-card domestic">
+                        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-front">
+                                <i class="fas fa-shield-alt text-5xl mb-4 text-green-300"></i>
+                                <h3 class="text-xl font-bold">Safety Without Fear</h3>
+                                <p class="text-sm text-gray-300">Reform the police, protect citizens, stop abuse.</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3 class="text-xl font-bold mb-2">Safety Without Fear</h3>
+                                <p>Reforming law enforcement to prioritize citizen protection, eliminate abuse, and ensure justice for all, fostering a society where safety is guaranteed and fear is absent.</p>
+                                <a href="#" class="learn-more-btn">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Foreign Affairs -->
+                    <div class="flip-card-container policy-card foreign hidden">
+                        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-front">
+                                <i class="fas fa-route text-5xl mb-4 text-orange-300"></i>
+                                <h3 class="text-xl font-bold">Reset with the World</h3>
+                                <p class="text-sm text-gray-300">Normalize ties with Europe, end isolation.</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3 class="text-xl font-bold mb-2">Reset with the World</h3>
+                                <p>Re-establishing strong, cooperative relationships with Europe and the global community to end isolation and promote mutual prosperity.</p>
+                                <a href="#" class="learn-more-btn">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card-container policy-card foreign hidden">
+                        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-front">
+                                <i class="fas fa-dove text-5xl mb-4 text-purple-300"></i>
+                                <h3 class="text-xl font-bold">Peace Over War</h3>
+                                <p class="text-sm text-gray-300">End imperial overreach. Bring soldiers home.</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3 class="text-xl font-bold mb-2">Peace Over War</h3>
+                                <p>Prioritizing peaceful diplomacy and de-escalation, bringing our soldiers home and ending military interventions abroad to focus on national development.</p>
+                                <a href="#" class="learn-more-btn">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card-container policy-card foreign hidden">
+                        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-front">
+                                <i class="fas fa-balance-scale text-5xl mb-4 text-cyan-300"></i>
+                                <h3 class="text-xl font-bold">Lead by Example</h3>
+                                <p class="text-sm text-gray-300">Uphold international law and human rights.</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3 class="text-xl font-bold mb-2">Lead by Example</h3>
+                                <p>Committing to the highest standards of international law and human rights, demonstrating Russia's leadership through integrity and respect for global norms.</p>
+                                <a href="#" class="learn-more-btn">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Technology & Innovation -->
+                    <div class="flip-card-container policy-card technology hidden">
+                        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-front">
+                                <i class="fas fa-wifi text-5xl mb-4 text-yellow-300"></i>
+                                <h3 class="text-xl font-bold">Digital Freedom</h3>
+                                <p class="text-sm text-gray-300">A free, open internet for all citizens.</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3 class="text-xl font-bold mb-2">Digital Freedom</h3>
+                                <p>Ensuring unrestricted access to information and communication for all citizens, fostering an open and innovative digital landscape.</p>
+                                <a href="#" class="learn-more-btn">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card-container policy-card technology hidden">
+                        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-front">
+                                <i class="fas fa-brain text-5xl mb-4 text-pink-300"></i>
+                                <h3 class="text-xl font-bold">Smart Economy</h3>
+                                <p class="text-sm text-gray-300">Invest in AI, clean energy, and startups.</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3 class="text-xl font-bold mb-2">Smart Economy</h3>
+                                <p>Driving economic growth through strategic investments in artificial intelligence, renewable energy, and a thriving startup ecosystem, building a resilient future.</p>
+                                <a href="#" class="learn-more-btn">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card-container policy-card technology hidden">
+                        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-front">
+                                <i class="fas fa-flask text-5xl mb-4 text-lime-300"></i>
+                                <h3 class="text-xl font-bold">STEM for All</h3>
+                                <p class="text-sm text-gray-300">Reform education to fuel innovation.</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3 class="text-xl font-bold mb-2">STEM for All</h3>
+                                <p>Transforming education to emphasize Science, Technology, Engineering, and Mathematics, preparing the next generation for leadership in a rapidly evolving global economy.</p>
+                                <a href="#" class="learn-more-btn">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Culture & Society -->
+                    <div class="flip-card-container policy-card culture hidden">
+                        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-front">
+                                <i class="fas fa-theater-masks text-5xl mb-4 text-teal-300"></i>
+                                <h3 class="text-xl font-bold">Free Expression</h3>
+                                <p class="text-sm text-gray-300">Protect artists, musicians, and filmmakers.</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3 class="text-xl font-bold mb-2">Free Expression</h3>
+                                <p>Championing the rights of artists, musicians, and filmmakers to express themselves freely, fostering a vibrant and diverse cultural landscape.</p>
+                                <a href="#" class="learn-more-btn">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card-container policy-card culture hidden">
+                        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-front">
+                                <i class="fas fa-people-arrows text-5xl mb-4 text-amber-300"></i>
+                                <h3 class="text-xl font-bold">Diverse & United</h3>
+                                <p class="text-sm text-gray-300">Celebrate every culture, protect all minorities.</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3 class="text-xl font-bold mb-2">Diverse & United</h3>
+                                <p>Celebrating the rich tapestry of cultures within Russia and ensuring comprehensive protection and respect for all minority groups, fostering national unity.</p>
+                                <a href="#" class="learn-more-btn">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card-container policy-card culture hidden">
+                        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-front">
+                                <i class="fas fa-book-open text-5xl mb-4 text-indigo-300"></i>
+                                <h3 class="text-xl font-bold">Truthful History</h3>
+                                <p class="text-sm text-gray-300">End forced memory; teach history honestly.</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3 class="text-xl font-bold mb-2">Truthful History</h3>
+                                <p>Promoting an honest and comprehensive understanding of our nation's past, rejecting historical revisionism and fostering critical thinking about our shared heritage.</p>
+                                <a href="#" class="learn-more-btn">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Our Goals in Numbers - New Infographic Section -->
+                <div class="bg-gray-800 bg-opacity-50 p-8 rounded-xl mt-12 text-center">
+                    <h3 class="text-2xl font-bold mb-8 text-white">Our Goals in Numbers: Progress (2003-2004)</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                        <!-- Fundraising Growth -->
+                        <div class="infographic-card group">
+                            <div class="flex items-center justify-center mb-4">
+                                <i class="fas fa-chart-line text-5xl text-blue-400 mr-4"></i>
+                                <div>
+                                    <p class="text-lg text-gray-300">Fundraising Growth</p>
+                                    <span id="fundraising-counter" class="animated-counter text-blue-300">0</span>
+                                </div>
+                            </div>
+                            <div class="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-blue-500 rounded-full" style="width: 0%;" id="fundraising-bar"></div>
+                            </div>
+                            <p class="text-sm text-gray-400 mt-2">Party fundraising has tripled in 12 months.</p>
+                            <span class="tooltip-text">Funds raised by the party increased steadily from grassroots support.</span>
+                        </div>
+
+                        <!-- Corruption Level Decrease -->
+                        <div class="infographic-card group">
+                            <div class="flex items-center justify-center mb-4">
+                                <i class="fas fa-gavel text-5xl text-red-400 mr-4"></i>
+                                <div>
+                                    <p class="text-lg text-gray-300">Corruption Decrease</p>
+                                    <span id="corruption-gauge" class="animated-counter text-red-300">0</span>
+                                </div>
+                            </div>
+                            <div class="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-red-500 rounded-full" style="width: 100%;" id="corruption-bar"></div>
+                            </div>
+                            <p class="text-sm text-gray-400 mt-2">Corruption decreased by an average of 25% in Duma districts controlled by RoF Duma members.</p>
+                            <span class="tooltip-text">Meaningful drop in local corruption perception.</span>
+                        </div>
+
+                        <!-- Membership Expansion -->
+                        <div class="infographic-card group">
+                            <div class="flex items-center justify-center mb-4">
+                                <i class="fas fa-users text-5xl text-green-400 mr-4"></i>
+                                <div>
+                                    <p class="text-lg text-gray-300">Membership Expansion</p>
+                                    <span id="membership-counter" class="animated-counter text-green-300">0</span>
+                                </div>
+                            </div>
+                            <div class="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-green-500 rounded-full" style="width: 0%;" id="membership-bar"></div>
+                            </div>
+                            <p class="text-sm text-gray-400 mt-2">Gained 18 new party members, total now over 300 members.</p>
+                            <span class="tooltip-text">Active membership grew from tens of thousands to over 40,000.</span>
+                        </div>
+
+                        <!-- Public Support -->
+                        <div class="infographic-card group">
+                            <div class="flex items-center justify-center mb-4">
+                                <i class="fas fa-chart-pie text-5xl text-purple-400 mr-4"></i>
+                                <div>
+                                    <p class="text-lg text-gray-300">Public Support (Urban)</p>
+                                    <div class="radial-progress" style="--progress: 0%;" id="public-support-radial">
+                                        <span>0%</span>
+                                    </div>
+                                    <span class="radial-progress-label">Favorability</span>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-400 mt-2">Public support (urban) is now at 20% up from 15% last year.</p>
+                            <span class="tooltip-text">Polling data depicts increased favorability.</span>
+                        </div>
+
+                        <!-- Campaign Outreach Events -->
+                        <div class="infographic-card group col-span-full lg:col-span-1">
+                            <div class="flex items-center justify-center mb-4">
+                                <i class="fas fa-bullhorn text-5xl text-orange-400 mr-4"></i>
+                                <div>
+                                    <p class="text-lg text-gray-300">Campaign Outreach</p>
+                                    <span id="events-counter" class="animated-counter text-orange-300">0</span>
+                                </div>
+                            </div>
+                            <div class="text-gray-400 text-sm mt-4">
+                                <p>Our campaigns reached communities across Russia through numerous events and volunteer actions.</p>
+                            </div>
+                            <span class="tooltip-text">Growing clusters of events lighting up across Russia.</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leadership Page Section -->
+        <section id="leadership" class="page-section py-16 md:py-24 px-4 md:px-8 lg:px-16">
+            <div class="max-w-7xl mx-auto text-center">
+                <h2 class="text-4xl font-extrabold text-center mb-12 text-white">Our Leadership</h2>
+
+                <!-- Leadership Categories -->
+                <div class="flex justify-center mb-8 space-x-4 flex-wrap">
+                    <button class="leadership-tab bg-red-600 text-white px-6 py-3 rounded-full text-lg font-semibold transition duration-300 hover:bg-red-700 mb-2 md:mb-0" data-category="chairman">Party Chairman</button>
+                    <button class="leadership-tab bg-gray-700 text-white px-6 py-3 rounded-full text-lg font-semibold transition duration-300 hover:bg-gray-600 mb-2 md:mb-0" data-category="national-board">National Board Members</button>
+                </div>
+
+                <!-- Leadership Carousel Container -->
+                <div id="leadership-carousel" class="carousel-container flex overflow-x-scroll snap-x snap-mandatory pb-4 scrollbar-hide">
+                    <!-- Chairman & Co-Chairman -->
+                    <div class="carousel-item chairman flex flex-col md:flex-row items-center justify-center gap-8">
+                        <!-- Chairman -->
+                        <div class="leader-card p-8 rounded-xl text-center cursor-pointer w-80 h-auto flex-shrink-0" data-leader="chairman1">
+                            <img src="https://placehold.co/150x150/1a417d/e5f3ff?text=Leader+1" alt="Party Chairman" class="leader-photo w-40 h-40 rounded-full mx-auto mb-4 object-cover border-4 border-blue-400">
+                            <h3 class="text-2xl font-bold">Ivan Petrov</h3>
+                            <p class="text-lg text-gray-300">Party Chairman</p>
+                        </div>
+                        <!-- Co-Chairman -->
+                        <div class="leader-card p-6 rounded-xl text-center cursor-pointer w-64 h-auto flex-shrink-0" data-leader="bureau1">
+                            <img src="https://placehold.co/150x150/1a417d/e5f3ff?text=Leader+2" alt="Co-Chairman" class="leader-photo w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-blue-400">
+                            <h3 class="text-xl font-bold">Elena Smirnova</h3>
+                            <p class="text-md text-gray-300">Co-Chairman</p>
+                        </div>
+                    </div>
+                    <!-- National Board Members -->
+                    <div class="carousel-item national-board hidden w-full">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
+                            <div class="leader-card p-6 rounded-xl text-center cursor-pointer w-64" data-leader="regional1">
+                                <img src="https://placehold.co/150x150/1a417d/e5f3ff?text=Leader+4" alt="National Board Member" class="leader-photo w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-blue-400">
+                                <h3 class="text-xl font-bold">Anna Kuznetsova</h3>
+                                <p class="text-md text-gray-300">National Board Member (Moscow)</p>
+                            </div>
+                            <div class="leader-card p-6 rounded-xl text-center cursor-pointer w-64" data-leader="regional2">
+                                <img src="https://placehold.co/150x150/1a417d/e5f3ff?text=Leader+5" alt="National Board Member" class="leader-photo w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-blue-400">
+                                <h3 class="text-xl font-bold">Sergei Ivanov</h3>
+                                <p class="text-md text-gray-300">National Board Member (Siberia)</p>
+                            </div>
+                            <div class="leader-card p-6 rounded-xl text-center cursor-pointer w-64" data-leader="national-board-3">
+                                <img src="https://placehold.co/150x150/1a417d/e5f3ff?text=Leader+6" alt="National Board Member" class="leader-photo w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-blue-400">
+                                <h3 class="text-xl font-bold">Olga Petrova</h3>
+                                <p class="text-md text-gray-300">National Board Member (Volga)</p>
+                            </div>
+                            <div class="leader-card p-6 rounded-xl text-center cursor-pointer w-64" data-leader="national-board-4">
+                                <img src="https://placehold.co/150x150/1a417d/e5f3ff?text=Leader+7" alt="National Board Member" class="leader-photo w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-blue-400">
+                                <h3 class="text-xl font-bold">Nikolai Sidorov</h3>
+                                <p class="text-md text-gray-300">National Board Member (Urals)</p>
+                            </div>
+                            <div class="leader-card p-6 rounded-xl text-center cursor-pointer w-64" data-leader="national-board-5">
+                                <img src="https://placehold.co/150x150/1a417d/e5f3ff?text=Leader+8" alt="National Board Member" class="leader-photo w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-blue-400">
+                                <h3 class="text-xl font-bold">Maria Novikova</h3>
+                                <p class="text-md text-gray-300">National Board Member (Far East)</p>
+                            </div>
+                            <div class="leader-card p-6 rounded-xl text-center cursor-pointer w-64" data-leader="national-board-6">
+                                <img src="https://placehold.co/150x150/1a417d/e5f3ff?text=Leader+9" alt="National Board Member" class="leader-photo w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-blue-400">
+                                <h3 class="text-xl font-bold">Alexei Fedorov</h3>
+                                <p class="text-md text-gray-300">National Board Member (South)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Leader Bio Modal -->
+    <div id="leaderBioModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="document.getElementById('leaderBioModal').style.display='none'">&times;</span>
+            <img id="modalLeaderPhoto" src="" alt="Leader Photo" class="w-32 h-32 rounded-full mx-auto mb-6 object-cover border-4 border-blue-400">
+            <h3 id="modalLeaderName" class="text-3xl font-bold text-center mb-2"></h3>
+            <p id="modalLeaderTitle" class="text-xl text-gray-300 text-center mb-4"></p>
+            <p id="modalLeaderBio" class="text-gray-200 text-lg leading-relaxed text-center"></p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-8 px-4 md:px-8 lg:px-16 mt-auto">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+            <div class="mb-4 md:mb-0">
+                <p class="text-lg font-bold mb-2">Quick Links</p>
+                <ul class="text-sm">
+                    <li><a href="https://sites.google.com/view/the-kremlin/kremlin" target="_blank" class="hover:text-white">Kremlin</a></li>
+                    <li><a href="https://stateduma.my.canva.site/" target="_blank" class="hover:text-white">State Duma</a></li>
+                    <li><a href="https://sites.google.com/view/rfgr-election-commission/home?authuser=0" target="_blank" class="hover:text-white">CEC</a></li>
+                </ul>
+            </div>
+            <div class="flex space-x-6 mb-4 md:mb-0">
+                <a href="https://discord.gg/SswsPv7mGM" target="_blank" class="text-white text-3xl hover:text-red-400 transition duration-300"><i class="fab fa-discord"></i></a>
+            </div>
+            <div class="text-sm">
+                <a href="#" class="block hover:text-white mb-1">Privacy Policy</a>
+                <a href="#" class="block hover:text-white mb-1">Terms of Service</a>
+                <p class="mt-2">© 2025 Russia of the Future. All rights reserved.</p>
+                <p class="mt-1">Powered by the Russia of the Future Digital Team</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for particle animation in Hero Section
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const numParticles = 100;
+
+        // Function to resize canvas
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            // Re-initialize particles on resize to avoid distortion
+            particles = [];
+            for (let i = 0; i < numParticles; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        // Particle class
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1; // Size between 1 and 4
+                this.speedX = Math.random() * 0.5 - 0.25; // Speed between -0.25 and 0.25
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.color = `rgba(188, 223, 255, ${Math.random() * 0.5 + 0.3})`; // Icy-blue with varying opacity
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                // Wrap particles around the screen
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Animation loop for particles
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        // Initialize and start particle animation
+        window.addEventListener('load', () => {
+            resizeCanvas(); // Set initial canvas size
+            animateParticles();
+        });
+        window.addEventListener('resize', resizeCanvas); // Resize canvas on window resize
+
+        // Policy Tab functionality
+        const policyTabs = document.querySelectorAll('.policy-tab');
+        const policyCards = document.querySelectorAll('.policy-card');
+        const policyCardsContainer = document.getElementById('policy-cards-container');
+
+        policyTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const category = tab.dataset.category;
+
+                // Update active tab styling
+                policyTabs.forEach(t => {
+                    t.classList.remove('bg-red-600', 'hover:bg-red-700');
+                    t.classList.add('bg-gray-700', 'hover:bg-gray-600');
+                });
+                tab.classList.remove('bg-gray-700', 'hover:bg-gray-600');
+                tab.classList.add('bg-red-600', 'hover:bg-red-700');
+
+                // Filter cards
+                policyCards.forEach(card => {
+                    if (card.classList.contains(category)) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                    // Ensure cards are not flipped when hidden/shown
+                    const flipCard = card.querySelector('.flip-card');
+                    if (flipCard && flipCard.classList.contains('flipped')) {
+                        flipCard.classList.remove('flipped');
+                    }
+                });
+            });
+        });
+
+        // Initial display for policy cards (show domestic by default)
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('.policy-tab[data-category="domestic"]').click();
+        });
+
+
+        // Leadership Carousel and Modal functionality
+        const leadershipTabs = document.querySelectorAll('.leadership-tab');
+        const carouselItems = document.querySelectorAll('.carousel-item');
+        const leaderBioModal = document.getElementById('leaderBioModal');
+        const modalLeaderPhoto = document.getElementById('modalLeaderPhoto');
+        const modalLeaderName = document.getElementById('modalLeaderName');
+        const modalLeaderTitle = document.getElementById('modalLeaderTitle');
+        const modalLeaderBio = document.getElementById('modalLeaderBio');
+
+        // Leader data (mock data)
+        const leadersData = {
+            chairman1: {
+                photo: "https://placehold.co/150x150/1a417d/e5f3ff?text=Leader+1",
+                name: "Ivan Petrov",
+                title: "Party Chairman",
+                bio: "Ivan Petrov is the visionary leader of Russia of the Future, dedicated to modernizing the nation's economy and fostering international cooperation. With a background in technology and public administration, he champions innovation and transparency."
+            },
+            bureau1: { // This is now the single Co-Chairman
+                photo: "https://placehold.co/150x150/1a417d/e5f3ff?text=Leader+2",
+                name: "Elena Smirnova",
+                title: "Co-Chairman",
+                bio: "Elena Smirnova serves as Co-Chairman, bringing extensive experience in domestic policy and social development to our leadership team. She is a key advocate for people-centric policies."
+            },
+            regional1: {
+                photo: "https://placehold.co/150x150/1a417d/e5f3ff?text=Leader+4",
+                name: "Anna Kuznetsova",
+                title: "National Board Member (Moscow)",
+                bio: "Anna Kuznetsova is the dynamic regional coordinator for the Moscow region, connecting with local communities and implementing party initiatives at the grassroots level. She is a strong advocate for urban development and civic engagement."
+            },
+            regional2: {
+                photo: "https://placehold.co/150x150/1a417d/e5f3ff?text=Leader+5",
+                name: "Sergei Ivanov",
+                title: "National Board Member (Siberia)",
+                bio: "Sergei Ivanov oversees our efforts in the vast Siberian Federal District, addressing the unique needs of its diverse communities. His focus is on sustainable resource management and supporting local industries."
+            },
+            'national-board-3': {
+                photo: "https://placehold.co/150x150/1a417d/e5f3ff?text=Leader+6",
+                name: "Olga Petrova",
+                title: "National Board Member (Volga)",
+                bio: "Olga Petrova is a key figure in the Volga region, championing local economic development and cultural preservation. Her work focuses on empowering regional businesses and communities."
+            },
+            'national-board-4': {
+                photo: "https://placehold.co/150x150/1a417d/e5f3ff?text=Leader+7",
+                name: "Nikolai Sidorov",
+                title: "National Board Member (Urals)",
+                bio: "Nikolai Sidorov is dedicated to industrial modernization and environmental protection in the Urals. He leads initiatives for sustainable practices and technological advancement in the region."
+            },
+            'national-board-5': {
+                photo: "https://placehold.co/150x150/1a417d/e5f3ff?text=Leader+8",
+                name: "Maria Novikova",
+                title: "National Board Member (Far East)",
+                bio: "Maria Novikova focuses on developing infrastructure and fostering international trade in the Far East. She is committed to unlocking the region's vast potential and improving living standards."
+            },
+            'national-board-6': {
+                photo: "https://placehold.co/150x150/1a417d/e5f3ff?text=Leader+9",
+                name: "Alexei Fedorov",
+                title: "National Board Member (South)",
+                bio: "Alexei Fedorov works on agricultural innovation and tourism development in Russia's southern regions. He advocates for policies that support local farmers and promote cultural tourism."
+            }
+        };
+
+        leadershipTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const category = tab.dataset.category;
+
+                // Update active tab styling
+                leadershipTabs.forEach(t => {
+                    t.classList.remove('bg-red-600', 'hover:bg-red-700');
+                    t.classList.add('bg-gray-700', 'hover:bg-gray-600');
+                });
+                tab.classList.remove('bg-gray-700', 'hover:bg-gray-600');
+                tab.classList.add('bg-red-600', 'hover:bg-red-700');
+
+                // Filter carousel items
+                carouselItems.forEach(item => {
+                    if (item.classList.contains(category)) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+                // Scroll to the beginning of the carousel for the new category
+                document.getElementById('leadership-carousel').scrollLeft = 0;
+            });
+        });
+
+        // Event listener for clicking on leader cards to open modal
+        document.querySelectorAll('.leader-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const leaderId = card.dataset.leader;
+                const leader = leadersData[leaderId];
+
+                if (leader) {
+                    modalLeaderPhoto.src = leader.photo;
+                    modalLeaderPhoto.onerror = function() {
+                        this.src = 'https://placehold.co/150x150/1a417d/e5f3ff?text=Image+Error'; // Fallback image
+                    };
+                    modalLeaderName.textContent = leader.name;
+                    modalLeaderTitle.textContent = leader.title;
+                    modalLeaderBio.textContent = leader.bio;
+                    leaderBioModal.style.display = 'flex'; // Show modal
+                }
+            });
+        });
+
+        // Close modal when clicking outside of it
+        window.addEventListener('click', (event) => {
+            if (event.target == leaderBioModal) {
+                leaderBioModal.style.display = 'none';
+            }
+        });
+
+        // Initial display for leadership cards (show chairman by default)
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('.leadership-tab[data-category="chairman"]').click();
+        });
+
+        // Multi-page navigation logic
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pageSections = document.querySelectorAll('.page-section');
+
+        function showPage(pageId) {
+            pageSections.forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+
+            // Deactivate all main nav links
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Activate the corresponding main nav link if it exists
+            const activeNavLink = document.querySelector(`.nav-link[data-page="${pageId}"]`);
+            if (activeNavLink) {
+                activeNavLink.classList.add('active');
+            }
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default anchor link behavior
+                const pageId = link.dataset.page;
+                showPage(pageId);
+            });
+        });
+
+        // Show home page on initial load or if a specific hash is in the URL
+        document.addEventListener('DOMContentLoaded', () => {
+            const initialPage = window.location.hash.substring(1) || 'home';
+            showPage(initialPage);
+        });
+
+        // Infographic Animations
+        function animateCounter(id, start, end, duration, suffix = '', prefix = '') {
+            const element = document.getElementById(id);
+            if (!element) return;
+            let current = start;
+            const range = end - start;
+            const increment = end > start ? 1 : -1;
+            const stepTime = Math.abs(Math.floor(duration / range));
+
+            const timer = setInterval(() => {
+                current += increment;
+                element.textContent = prefix + current + suffix;
+                if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                    clearInterval(timer);
+                    element.textContent = prefix + end + suffix; // Ensure final value is exact
+                }
+            }, stepTime);
+        }
+
+        function animateRadialProgress(id, targetProgress, duration) {
+            const element = document.getElementById(id);
+            if (!element) return;
+            let currentProgress = 0;
+            const stepTime = duration / targetProgress;
+
+            const timer = setInterval(() => {
+                currentProgress++;
+                element.style.setProperty('--progress', `${currentProgress}%`);
+                element.querySelector('span').textContent = `${currentProgress}%`;
+                if (currentProgress >= targetProgress) {
+                    clearInterval(timer);
+                    element.style.setProperty('--progress', `${targetProgress}%`);
+                    element.querySelector('span').textContent = `${targetProgress}%`;
+                }
+            }, stepTime);
+        }
+
+        // Function to trigger infographic animations when the Views page is active
+        function triggerInfographicAnimations() {
+            const viewsPage = document.getElementById('views');
+            if (viewsPage && viewsPage.classList.contains('active')) {
+                // Animate cards sliding in
+                document.querySelectorAll('.infographic-card').forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('animate-in');
+                    }, 100 * index); // Stagger animation
+                });
+
+                // Animate counters with correct suffixes
+                animateCounter('fundraising-counter', 0, 25, 2000, 'M RUB');
+                document.getElementById('fundraising-bar').style.width = '100%';
+
+                animateCounter('corruption-gauge', 100, 75, 2000, '%');
+                document.getElementById('corruption-bar').style.width = '75%';
+
+                animateCounter('membership-counter', 0, 18, 2000, ' new members');
+                document.getElementById('membership-bar').style.width = '100%';
+
+                animateRadialProgress('public-support-radial', 20, 2000);
+
+                animateCounter('events-counter', 0, 50, 2000, '+');
+            }
+        }
+
+        // Listen for page changes to trigger infographic animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const initialPage = window.location.hash.substring(1) || 'home';
+            showPage(initialPage);
+            // If the initial page is 'views', trigger animations immediately
+            if (initialPage === 'views') {
+                triggerInfographicAnimations();
+            }
+        });
+
+        // Add event listener to nav links to trigger animations when 'views' is clicked
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default anchor link behavior
+                const pageId = link.dataset.page;
+                showPage(pageId);
+                if (pageId === 'views') {
+                    // Give a slight delay for the page to become visible before animating
+                    setTimeout(triggerInfographicAnimations, 100);
+                }
+            });
+        });
+
+        // Scroll effect for Hero Section
+        window.addEventListener('scroll', () => {
+            const heroSection = document.querySelector('.hero-section');
+            const heroContent = document.querySelector('.hero-content');
+            const scrollY = window.scrollY;
+
+            const initialHeroHeight = window.innerHeight;
+            const minHeroHeight = window.innerHeight * 0.2; // Target shrunk height (20vh)
+            const scrollRange = initialHeroHeight * 0.8; // Scroll amount over which the effect happens (100vh - 20vh)
+
+            let progress = Math.min(1, Math.max(0, scrollY / scrollRange));
+
+            // Animate hero section height
+            const newHeight = initialHeroHeight - (progress * (initialHeroHeight - minHeroHeight));
+            heroSection.style.height = `${newHeight}px`;
+
+            // Animate hero content opacity
+            heroContent.style.opacity = 1 - progress;
+
+            // Animate hero content vertical position using translateY
+            // Initial translateY is -50% (from CSS transform: translate(-50%, -50%)).
+            // We want to move it further up as we scroll.
+            const initialTranslateY_percent = -50;
+            const finalTranslateY_percent = -150; // Moves it 100% of its height further up
+            const newTranslateY_percent = initialTranslateY_percent + (progress * (finalTranslateY_percent - initialTranslateY_percent));
+            heroContent.style.transform = `translateX(-50%) translateY(${newTranslateY_percent}%)`;
+        });
+
+    </script>
+</body>
+</html>
