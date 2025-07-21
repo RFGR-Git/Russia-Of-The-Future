@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Russia of the Future - Official Website</title>
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/images/Russia_of_the_Future_logo.svg.png">
+    <link rel="icon" type="image/png" href="https://placehold.co/32x32/dc2626/ffffff?text=RF">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Montserrat for headers, Inter for body -->
@@ -59,14 +59,14 @@
 
         .hero-content {
             position: absolute; /* Position absolutely within hero-section */
-            top: 10%; /* Adjusted for higher initial position */
+            top: 10%; /* Adjusted for higher initial position as requested */
             left: 45%; /* Retained at 45% as requested */
-            transform: translateX(-50%) translateY(-50%); /* Center horizontally and vertically based on its own size */
+            transform: translateX(-50%); /* Only horizontal centering based on left: 45% */
             display: flex; /* Use flexbox for internal centering */
             flex-direction: column; /* Stack items vertically */
             align-items: center; /* Center items horizontally */
-            justify-content: center; /* Center items vertically */
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Smoother transitions for transform */
+            justify-content: flex-start; /* Align content to start (top) within its own flex container */
+            transition: opacity 0.5s ease-out, top 0.5s ease-out; /* Smoother transitions for top property */
             width: 100%; /* Ensure content takes full width for centering */
             max-width: 90%; /* Limit width for readability */
             padding: 0 1rem; /* Add some padding */
@@ -523,9 +523,12 @@
                     <div class="absolute inset-0 bg-gradient-to-t from-transparent to-black opacity-30"></div>
                 </div>
                 <div class="relative z-10 hero-content px-4">
-                    <h1 class="text-6xl md:text-7xl lg:text-8xl font-extrabold leading-tight mb-8 text-shadow-lg animate-fade-in-up">
+                    <h1 class="text-6xl md:text-7xl lg:text-8xl font-extrabold leading-tight mb-4 text-shadow-lg animate-fade-in-up">
                         A Modern Vision for<br>Russia’s Tomorrow
                     </h1>
+                    <p class="text-xl md:text-2xl text-gray-200 mb-6 max-w-3xl mx-auto">
+                        A Russia free of corruption, rich in opportunity, and led by the people — this is the future we fight for.
+                    </p>
                     <button class="cta-button text-white font-bold py-4 px-8 rounded-full text-lg md:text-xl uppercase tracking-wide" onclick="window.open('https://canary.discord.com/channels/894566680741703721/1136920829767204986', '_blank');">
                         Join the Movement
                     </button>
@@ -533,7 +536,7 @@
             </div>
 
             <!-- Feature Cards Section -->
-            <div class="py-16 md:py-24 px-4 md:px-8 lg:px-16">
+            <div class="pt-8 md:pt-12 px-4 md:px-8 lg:px-16">
                 <div class="max-w-7xl mx-auto">
                     <h2 class="text-4xl font-extrabold text-center mb-12 text-white">Our Core Pillars</h2>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 feature-cards-grid">
@@ -1057,9 +1060,7 @@
                     <li><a href="https://sites.google.com/view/rfgr-election-commission/home?authuser=0" target="_blank" class="hover:text-white">CEC</a></li>
                 </ul>
             </div>
-            <div class="flex space-x-6 mb-4 md:mb-0">
-                <a href="https://discord.gg/SswsPv7mGM" target="_blank" class="text-white text-3xl hover:text-red-400 transition duration-300"><i class="fab fa-discord"></i></a>
-            </div>
+            <!-- Removed Discord Social Link -->
             <div class="text-sm">
                 <a href="#" class="block hover:text-white mb-1">Privacy Policy</a>
                 <a href="#" class="block hover:text-white mb-1">Terms of Service</a>
@@ -1418,25 +1419,24 @@
             const scrollY = window.scrollY;
 
             const initialHeroHeight = window.innerHeight;
-            const minHeroHeight = window.innerHeight * 0.2; // Target shrunk height (20vh)
-            const scrollRange = initialHeroHeight * 0.8; // Scroll amount over which the effect happens (100vh - 20vh)
+            const minHeroHeight = 0; // Set to 0 to make it fully collapse
+            const scrollRange = initialHeroHeight; // Now the full height is the scroll range for the effect
 
             let progress = Math.min(1, Math.max(0, scrollY / scrollRange));
 
             // Animate hero section height
-            const newHeight = initialHeroHeight - (progress * (initialHeroHeight - minHeroHeight));
-            heroSection.style.height = `${newHeight}px`;
+            const newHeight = initialHeroHeight - (progress * initialHeroHeight);
+            heroSection.style.height = `${Math.max(minHeroHeight, newHeight)}px`; // Ensure it doesn't go below 0
 
             // Animate hero content opacity
             heroContent.style.opacity = 1 - progress;
 
-            // Animate hero content vertical position using translateY
-            // Initial translateY is -50% (from CSS transform: translate(-50%, -50%)).
-            // We want to move it further up as we scroll.
-            const initialTranslateY_percent = -50;
-            const finalTranslateY_percent = -150; // Moves it 100% of its height further up
-            const newTranslateY_percent = initialTranslateY_percent + (progress * (finalTranslateY_percent - initialTranslateY_percent));
-            heroContent.style.transform = `translateX(-50%) translateY(${newTranslateY_percent}%)`;
+            // Animate hero content vertical position
+            // Initial top is 10%. We want it to move further up, off-screen.
+            const initialContentTop = 10; // Corresponds to CSS top: 10%
+            const finalContentTop = -100; // Move it significantly off-screen
+            const newContentTop = initialContentTop + (progress * (finalContentTop - initialContentTop));
+            heroContent.style.top = `${newContentTop}%`;
         });
 
     </script>
