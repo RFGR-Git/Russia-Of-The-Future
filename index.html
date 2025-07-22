@@ -1419,7 +1419,7 @@
 
             const initialHeroHeight = window.innerHeight;
             const minHeroHeight = 0; // Set to 0 to make it fully collapse
-            const scrollRange = initialHeroHeight; // Now the full height is the scroll range for the effect
+            const scrollRange = initialHeroHeight * 0.7; // Make the transition happen over 70% of the initial height
 
             let progress = Math.min(1, Math.max(0, scrollY / scrollRange));
 
