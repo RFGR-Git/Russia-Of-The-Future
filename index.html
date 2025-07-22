@@ -59,13 +59,13 @@
 
         .hero-content {
             position: absolute; /* Position absolutely within hero-section */
-            top: 0%; /* Adjusted for higher initial position as requested */
-            left: 40%; /* Changed from 40% to 50% for true horizontal centering */
-            transform: translateX(-50%); /* Ensures perfect horizontal centering */
+            top: 50%; /* Centered vertically */
+            left: 50%; /* Centered horizontally */
+            transform: translate(-50%, -50%); /* Adjust for perfect centering */
             display: flex; /* Use flexbox for internal centering */
             flex-direction: column; /* Stack items vertically */
             align-items: center; /* Center items horizontally */
-            justify-content: flex-start; /* Align content to start (top) within its own flex container */
+            justify-content: center; /* Center items vertically */
             transition: opacity 0.5s ease-out, top 0.5s ease-out; /* Smoother transitions for top property */
             width: 100%; /* Ensure content takes full width for centering */
             max-width: 80%; /* Limit width for readability */
@@ -536,8 +536,7 @@
             </div>
 
             <!-- Feature Cards Section -->
-            <!-- Removed top padding to pull it up closer to the header -->
-            <div class="pt-0 md:pt-0 pb-16 md:pb-24 px-4 md:px-8 lg:px-16">
+            <div class="pt-0 md:pt-0 pb-16 md:pb-24 px-4 md:px-8 lg:px-16" id="main-content-start">
                 <div class="max-w-7xl mx-auto">
                     <h2 class="text-4xl font-extrabold text-center mb-12 text-white">Our Core Pillars</h2>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 feature-cards-grid">
@@ -1058,7 +1057,7 @@
                 <ul class="text-sm">
                     <li><a href="https://sites.google.com/view/the-kremlin/kremlin" target="_blank" class="hover:text-white">Kremlin</a></li>
                     <li><a href="https://stateduma.my.canva.site/" target="_blank" class="hover:text-white">State Duma</a></li>
-                    <li><a href="https://sites.google.com/view/rfgr-election-commission/home?authuser=0" target="_blank" class="hover:text-white">CEC</a></li>
+                    <li><a href="https://sites.google.com/view/rfgr-election-commission/home" target="_blank" class="hover:text-white">CEC</a></li>
                 </ul>
             </div>
             <!-- Removed Discord Social Link -->
@@ -1341,11 +1340,6 @@
                     clearInterval(timer);
                     element.textContent = prefix + end + suffix; // Ensure final value is exact
                 }
-                // Update modal leader photo and name if modal is open and it's the current leader
-                if (leaderBioModal.style.display === 'flex' && modalLeaderName.textContent === leadersData[id.replace('-counter', '')]?.name) {
-                    modalLeaderPhoto.src = leadersData[id.replace('-counter', '')]?.photo;
-                    modalLeaderName.textContent = leadersData[id.replace('-counter', '')]?.name;
-                }
             }, stepTime);
         }
 
@@ -1437,8 +1431,8 @@
             heroContent.style.opacity = 1 - progress;
 
             // Animate hero content vertical position
-            // Initial top is 0%. We want it to move further up, off-screen.
-            const initialContentTop = 0; // Corresponds to CSS top: 0%
+            // Initial top is 50%. We want it to move further up, off-screen.
+            const initialContentTop = 50; // Corresponds to CSS top: 50%
             const finalContentTop = -100; // Move it significantly off-screen
             const newContentTop = initialContentTop + (progress * (finalContentTop - initialContentTop));
             heroContent.style.top = `${newContentTop}%`;
